@@ -76,5 +76,3 @@ Ideal for students learning IoT and embedded system safety applications.
 
 
 ---
-
-Would you like me to write a shorter GitHub README version (under 150 words) for the repository front page?
