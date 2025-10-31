@@ -1,0 +1,50 @@
+//CODE FOR FIRE AND SMOKE DETECTION SYSTEM
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+// LCD address: 0x27 or 0x3F
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+const int smokeSensorPin = A0;
+const int buzzerPin = 8;
+
+void setup() {
+  lcd.begin();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print(" Smoke & Fire ");
+  lcd.setCursor(0, 1);
+  lcd.print("  System Ready  ");
+  delay(1500); // Short welcome delay
+  lcd.clear();
+
+  pinMode(smokeSensorPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+}
+
+void loop() {
+  int sensorValue = analogRead(smokeSensorPin);  // Fast reading
+
+  // Display Smoke Level
+  lcd.setCursor(0, 0);
+  lcd.print("Smoke: ");
+  if (sensorValue < 300) {
+    lcd.print("LOW     ");
+  } else if (sensorValue < 600) {
+    lcd.print("MEDIUM  ");
+  } else {
+    lcd.print("HIGH    ");
+  }
+
+  // Fire Detection and Buzzer Control
+  lcd.setCursor(0, 1);
+  if (sensorValue >= 700) {
+    lcd.print("FIRE DETECTED! ");
+    digitalWrite(buzzerPin, HIGH);
+  } else {
+    lcd.print("No Fire        ");
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  delay(500);  // 0.5-second delay for fast but stable output
+}
